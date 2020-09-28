@@ -140,13 +140,22 @@
 
 	" Map the leader arrows to resize the current window
 	noremap <silent> <C-W>< :exe "vertical resize " . (winwidth(0) * 95/100)<CR>
-	noremap <silent> <C-W>- :exe "resize " . (winheight(0) * 90/100)<CR>
+	noremap <silent> <C-W>- :exe "resize " . (winheight(0) * 80/100)<CR>
 	noremap <silent> <C-W>+ :exe "resize " . (winheight(0) * 120/100)<CR>
 	noremap <silent> <C-W>> :exe "vertical resize " . (winwidth(0) * 110/100)<CR>
 
 	" Automatically resize splits when resizing window
 	autocmd VimResized * wincmd = 
 	" }}}
+" Terminal mode {{{
+	" Open a terminal automatically when no file is given as input. This line
+	" has to be before NERDTreeFocus
+	autocmd VimEnter * term ++kill=term
+	"
+	" Mappings: (neither <Esc> nor <F1> can be used... so I'll keep with the
+	" default)
+	" tnoremap <F1> <C-W>N
+" }}}
 " Search {{{
 	" Highlight searches (use <C-L> to temporarily turn off highlighting)
 	set hlsearch
@@ -247,7 +256,7 @@
 		Plug 'junegunn/vim-plug' " Vim-plug itself, to enable its Vim help.
 		Plug 'morhetz/gruvbox' " Beautiful colors =]
 		Plug 'preservim/nerdtree' " Tree explorer
-		Plug 'Xuyuanp/nerdtree-git-plugin' " Show file status on NERDTree
+		" Plug 'Xuyuanp/nerdtree-git-plugin' " Show file status on NERDTree THIS SHIT MAKES EVERYTHING SLOW WHEN THE PROJECT FOLDER IS BIG!
 		Plug 'ryanoasis/vim-devicons' " Icons for NERDTree.
 		Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Colors based on filetype NOT WORKING!!!!!
 		Plug 'jiangmiao/auto-pairs' " Create the closing bracket automatically {}[]()
@@ -275,6 +284,7 @@
 		Plug 'jeetsukumaran/vim-buffergator' " Easily browse through buffer list
 		Plug 'maxmellon/vim-jsx-pretty' " Syntax for jsx (for React development)
 		Plug 'lervag/vimtex' " filetype plugin for LaTeX files
+		" Plug 'diepm/vim-rest-console' " Send HTTP requests directly from VIM
 		call plug#end()
 	" }}}
 	" gruvbox {{{
@@ -285,6 +295,8 @@
 		colorscheme gruvbox
 	" }}}
 	" vim-airline {{{
+		" Download the font DeJaVuSansMono Nerd Font, place it in ~/.local/share/fonts
+		" Change the terminal font to that font.
 		" Display tabline
 		let g:airline#extensions#tabline#enabled = 1 
 		let g:airline#extensions#tabline#left_sep = ' '
@@ -323,17 +335,20 @@
 		" vim-airline-theme
 		let g:airline_theme='badwolf' 
 
-		" Integrate with vim-obsession (Prepend a '$' when enabled)
-		function! AirlineInit()
-			let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
-		endfunction
-		autocmd User AirlineAfterInit call AirlineInit()
+		" " Integrate with vim-obsession (Prepend a '$' when enabled)
+		" function! AirlineInit()
+		" 	let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
+		" endfunction
+		" autocmd User AirlineAfterInit call AirlineInit()
 	" }}}
 	" vim-airline-clock {{{
 		" disable:
 		let g:airline#extensions#clock#auto = 0 
 	" }}}
 	" nerdtree {{{
+		" Resize terminal window
+		autocmd VimEnter * exe "resize " . (winheight(0) * 40/100)
+
 		" Open NERDTree if no file is given as CLI argument
 		autocmd StdinReadPre * let s:std_in=1
 		autocmd VimEnter * NERDTreeFocus
@@ -395,26 +410,10 @@
 			" other nerdtree related autocmds
 		" augroup END 
 		 
-		" The following is an attempt to make colors in NERDTree, but is not working
-		" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-		" 	exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-		" 	exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-		" endfunction
-		" call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-		" call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-		" call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-		" call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-		" call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-		" call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-		" call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-		" call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-		" call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-		" call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-		" call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-		" call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 	" }}}
 	" vim-devicons {{{
 		" Download the font DeJaVuSansMono Nerd Font, place it in ~/.local/share/fonts
+		" The terminal font has to be also that NerdFont .
 		set encoding=UTF-8
 		let g:airline_powerline_fonts = 1
 		set guifont=DejaVuSansMono\ Nerd\ Font\ Bold\ 9
@@ -634,8 +633,10 @@
 		"	press <leader>ww
 	" }}}
 	" vim-obsession {{{
-		" If no session exists, create a new session automatically
-		autocmd VimEnter * if empty(glob("Session.vim")) | Obsession Session.vim | endif
+		" If no session exists, create a new session automatically. If exists,
+		" load it. ------- UPDATE: It was not working properly with the terminal
+		" and coc.nvim was not reloading also.
+		" autocmd VimEnter * if empty(glob("Session.vim")) | Obsession Session.vim | else | source Session.vim | endif
 
 		" Set the vim terminal window to the saved size and position.
 		set sessionoptions+=resize
@@ -653,6 +654,9 @@
 		" To remap the default <C-Y> leader:
 		" let g:user_emmet_leader_key='<C-Z>'
 		" Note that the trailing , still needs to be entered after <C-Z>
+	" }}}
+	" vimTex {{{
+		let g:tex_flavor = 'latex'
 	" }}}
 	" vim-prettier {{{
 		" prettier encountered an error during instalation (I think node/yarn
