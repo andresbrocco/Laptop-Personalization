@@ -277,7 +277,7 @@
 		Plug 'tpope/vim-repeat' " Remaps '.' in a way that works with plugins
 		Plug 'tpope/vim-obsession' " Continuously updated session files
 		Plug 'mattn/emmet-vim' " Expand HTML abbreviations
-		Plug 'prettier/vim-prettier', {'do': 'yarn install' } " Make code prettier =]
+		" Plug 'prettier/vim-prettier', {'do': 'yarn install' } " Make code prettier =]
 		Plug 'moll/vim-bbye' " Deleting a buffer without closing the window
 		Plug 'tpope/vim-haml' " Vim runtime for Haml, Sass, ans SCSS
 		" Plug 'terryma/vim-multiple-cursors' " Multiple cursors
@@ -482,6 +482,8 @@
 		\ 'coc-css',
 		\ 'coc-clangd',
 		\ 'coc-emmet',
+		\ 'coc-prettier',
+		\ 'coc-vimtex',
 		\ ]
 		
 		" Some servers have issues with backup files, see #649.
@@ -662,7 +664,7 @@
 		" prettier encountered an error during instalation (I think node/yarn
 		" related), so I had to manually run 'npm install' inside the
 		" vim-prettier directory, and it started working.
-		 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
+		 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 	" }}}
 	" vim-multiple-cursors {{{
 		" " Remap the original bindings
@@ -675,5 +677,12 @@
 		" let g:multi_cursor_prev_key            = '<C-p>'
 		" let g:multi_cursor_skip_key            = '<C-x>'
 		" let g:multi_cursor_quit_key            = '<Esc>'
+	" }}}
+	" vim-bbye {{{
+		nnoremap <Leader>q :Bdelete<CR>
+	" }}}
+	" vim-gitgutter {{{
+		" Disabled by default
+		let g:gitgutter_enabled = 0
 	" }}}
  " }}} 

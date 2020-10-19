@@ -123,8 +123,13 @@ Setup vim:
 
 	To enable faster cursor movement, go to the OS keyboard config, and set 
 	"enable key repeat" with 250ms delay and repeat speed = 40 
+
+LaTeX:
+	sudo apt install texlive texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-pictures texlive-fonts-extra texlive-lang-french texlive-lang-portuguese texlive-lang-english
+	Setup coc-vimtex:
+		sudo apt install latexmk
 -------------------------------------------------------------------------
 
 Setup Thunderbird
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
