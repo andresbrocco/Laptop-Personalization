@@ -67,6 +67,7 @@
 	
 	" Indicate width limit at specified number of columns.
 	set colorcolumn=80
+	set textwidth=80
 	
 	" Fold automatically based on indentation, for files with more than 10 
 	" possible folds, limiting nested folding to 10.
@@ -150,7 +151,7 @@
 " Terminal mode {{{
 	" Open a terminal automatically when no file is given as input. This line
 	" has to be before NERDTreeFocus
-	autocmd VimEnter * term ++kill=term
+	" autocmd VimEnter * term ++kill=term
 	"
 	" Mappings: (neither <Esc> nor <F1> can be used... so I'll keep with the
 	" default)
@@ -347,7 +348,7 @@
 	" }}}
 	" nerdtree {{{
 		" Resize terminal window
-		autocmd VimEnter * exe "resize " . (winheight(0) * 40/100)
+		" autocmd VimEnter * exe "resize " . (winheight(0) * 40/100)
 
 		" Open NERDTree if no file is given as CLI argument
 		autocmd StdinReadPre * let s:std_in=1
@@ -473,7 +474,6 @@
 		\ 'coc-tslint-plugin',
 		\ 'coc-vimlsp',
 		\ 'coc-eslint',
-		\ 'coc-spell-checker',
 		\ 'coc-snippets',
 		\ 'coc-python',
 		\ 'coc-markdownlint',
@@ -484,6 +484,8 @@
 		\ 'coc-emmet',
 		\ 'coc-prettier',
 		\ 'coc-vimtex',
+		\ 'coc-spell-checker',
+		\ 'coc-cspell-dicts',
 		\ ]
 		
 		" Some servers have issues with backup files, see #649.
