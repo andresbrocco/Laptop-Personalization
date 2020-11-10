@@ -215,7 +215,7 @@ function hard_backdown {
 
 function backup {
 	echo "Updating files in ~/Documents/REPOS/OUTILS/Laptop_Personalization/backupData"
-	cd ~/Documents/REPOS/OUTILS/backupData
+	cd ~/Documents/REPOS/OUTILS/Laptop_Personalization/backupData
 	find . -type f | while read fileName; do
 		cp ~/"${fileName:2}" .
 	done
