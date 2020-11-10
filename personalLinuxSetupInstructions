@@ -1,3 +1,6 @@
+// add user to sudoers
+sudo usermod -a -G sudo <username>
+
 // Change owner of a folder: sudo chwon <username> <folder>
 -----------------------------------------------------------------------
 

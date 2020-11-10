@@ -1,4 +1,5 @@
 " vim:foldmethod=marker:foldlevel=0
+" cSpell:disable
 
 " Basic {{{
 	" Ward off unexpected things that your distribution might
@@ -486,6 +487,8 @@
 		\ 'coc-vimtex',
 		\ 'coc-spell-checker',
 		\ 'coc-cspell-dicts',
+		\ 'coc-sql',
+		\ 'coc-sh',
 		\ ]
 		
 		" Some servers have issues with backup files, see #649.
