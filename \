@@ -50,7 +50,6 @@ function setup_latex {
 }
 
 function download_laptop_personalization_repository {
-	mkdir -p ~/Documents/REPOS/OUTILS
 	cd ~/Documents/REPOS/OUTILS
 	git clone $laptop_personalization_repository_url
 	backdown
@@ -154,6 +153,8 @@ function install_fundamental_utils {
 	setup_move_to_monitor_shortcut
 	setup_vim
 	setup_latex
+	mkdir ~/Documents/REPOS
+	mkdir ~/Documents/REPOS/OUTILS
 	download_laptop_personalization_repository
 }
 
