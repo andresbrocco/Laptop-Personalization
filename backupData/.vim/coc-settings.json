@@ -1045,6 +1045,14 @@
 			}
 		}
 	},
+	"languageserver": {
+		"bash": {
+			"command": "bash-language-server",
+			"args": ["start"],
+			"filetypes": ["sh"],
+			"ignoredRootPaths": ["~"]
+		}
+	},
 	"python.linting.pylintEnabled": false,
 	"python.linting.flake8Enabled": true,
 	"python.linting.enabled": true,
