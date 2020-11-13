@@ -7,5 +7,4 @@
 ./andresbrocco.github.io-source,https://github.com/andresbrocco/andresbrocco.github.io-source.git
 ./OUTILS/Laptop-Personalization,git@github.com:andresbrocco/Laptop-Personalization.git
 ./andresbrocco.github.io-React,git@github.com:andresbrocco/andresbrocco.github.io-React.git
-./AIComMozao,
 ./andresbrocco.github.io,https://github.com/andresbrocco/andresbrocco.github.io.git
