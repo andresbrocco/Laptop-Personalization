@@ -352,8 +352,8 @@
 		" autocmd VimEnter * exe "resize " . (winheight(0) * 40/100)
 
 		" Open NERDTree if no file is given as CLI argument
-		autocmd StdinReadPre * let s:std_in=1
-		autocmd VimEnter * NERDTreeFocus
+		" autocmd StdinReadPre * let s:std_in=1
+		" autocmd VimEnter * NERDTreeFocus
 
 		" Show hidden files
 		let g:NERDTreeShowHidden = 1
@@ -467,7 +467,7 @@
 		"	npm install coc-clangd (for C/C++/Objective-C)
 		
 		" Trying to give the path to a newer version of node
-		let g:coc_node_path='~/Downloads/node-v14.2.0-linux-x64/bin/node'
+		" let g:coc_node_path='~/Downloads/node-v14.2.0-linux-x64/bin/node'
 		
 		" Dically install desired extensions
 		let g:coc_global_extensions = [
