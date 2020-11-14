@@ -35,9 +35,10 @@ function troubleshoot_hibernation {
 }
 
 function install_vim {
-	sudo apt install nodejs
-	sudo apt install npm
-	# npm i -g bash-language-server
+	sudo apt install nodejs -y
+	sudo apt install npm -y
+	sudo npm i -g bash-language-server
+	sudo apt install libncurses-dev -y
 	cd ~/Downloads
 	git clone https://github.com/vim/vim.git
 	cd vim/src
@@ -56,39 +57,45 @@ function install_shortcuts {
 }
 
 function install_latex {
-	sudo apt install texlive
-	sudo apt install texlive-latex-extra
-	sudo apt install texlive-lang-english
-	sudo apt install texlive-lang-portuguese
-	sudo apt install texlive-lang-french
-	sudo apt install texlive-fonts-extra
-	sudo apt install latexmk
+	sudo apt install texlive -y
+	sudo apt install texlive-latex-extra -y
+	sudo apt install texlive-lang-english -y
+	sudo apt install texlive-lang-portuguese -y
+	sudo apt install texlive-lang-french -y
+	sudo apt install texlive-fonts-extra -y
+	sudo apt install latexmk -y
 }
 
 function install_python {
-	sudo apt install python3
-	sudo apt install python3-pip
+	sudo apt install python3 -y
+	sudo apt install python3-pip -y
 	pip3 install notebook
 	pip3 install pandas numpy scipy
 	pip3 install matplotlib seaborn plotly
 	pip3 install scikit-learn 
-	pip3 install signal PyWavelets librosa
-	pip3 install opencv-python 
+	pip3 install PyWavelets librosa
 	pip3 install sympy
+}
+
+function install_opencv {
+	tput setaf 1
+	echo "This package takes time (20~30min)"
+	tput setaf 7
+	pip3 install opencv-python 
 }
 
 function install_discord {
 	cd ~/Downloads
-	sudo apt install libc++1
-	sudo apt install libappindicator1
+	sudo apt install libc++1 -y
+	sudo apt install libappindicator1 -y
 	wget -O discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
 	sudo dpkg -i /path/to/discord.deb
 }
 
 function install_telegram {
-	sudo add-apt-repository ppa:atareao/telegram
-	sudo apt update
-	sudo apt install telegram
+	sudo add-apt-repository ppa:atareao/telegram -y
+	sudo apt update -y
+	sudo apt install telegram -y
 }
 
 function install_displaylink {
@@ -101,14 +108,14 @@ function install_displaylink {
 }
 
 function install_touchpad {
-	sudo apt install xserver-xorg-input-synaptics
-	sudo apt install xserver-xorg-input-libinput
-	sudo apt install xserver-xorg-input-evdev
-	sudo apt install xserver-xorg-input-mouse
+	sudo apt install xserver-xorg-input-synaptics -y
+	sudo apt install xserver-xorg-input-libinput -y
+	sudo apt install xserver-xorg-input-evdev -y
+	sudo apt install xserver-xorg-input-mouse -y
 }
 
 function install_firefox {
-	sudo apt install firefox
+	sudo apt install firefox -y
 	tput setaf 2
 	echo "While I do my work, you could log-in to your firefox account!"
 	tput setaf 7
@@ -117,65 +124,68 @@ function install_firefox {
 }
 
 function install_fish {
-	sudo apt install fish
-	chsh -s /usr/bin/fish
-	set -U fish_user_paths ~/.local/bin
+	sudo apt install fish -y
+	sudo chsh -s /usr/bin/fish
+	fish -c "set -U fish_user_paths ~/.local/bin"
 }
 
 function install_xclip {
-	sudo apt install xclip
+	sudo apt install xclip -y
 }
 
 function install_tig {
-	sudo apt install tig
+	sudo apt install tig -y
 }
 
 function install_tree {
-	sudo apt install tree
+	sudo apt install tree -y
 }
 
 function install_zip {
-	sudo apt install zip
+	sudo apt install zip -y
 }
 
 function install_numlockx {
-	sudo apt install numlockx
+	sudo apt install numlockx -y
 }
 
 function install_baobab {
-	sudo apt install baobab
+	sudo apt install baobab -y
 }
 
 function install_gparted {
-	sudo apt install gparted
+	sudo apt install gparted -y
 }
 
 function install_snapd {
-	sudo apt install snapd
+	sudo apt install snapd -y
 }
 
 function install_curl {
-	sudo apt install curl
+	sudo apt install curl -y
 }
 
 function install_wget {
-	sudo apt install wget
+	sudo apt install wget -y
 }
 
 function install_openssh {
-	sudo apt install openssh-server
+	sudo apt install openssh-server -y
 }
 
 function install_make {
-	sudo apt install build-essential
+	sudo apt install build-essential -y
 }
 
 function install_virtualbox {
-	sudo apt install virtualbox
+	wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+	echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+	sudo apt update -y
+	sudo apt install virtualbox-6.1 -y
 }
 
 function install_sonicVisualiser {
-	sudo apt install sonic-visualiser
+	sudo apt install sonic-visualiser -y
 }
 
 function install_blender {
@@ -183,17 +193,17 @@ function install_blender {
 }
 
 function install_wacom {
-	sudo apt install xserver-xorg-input-wacom
-	sudo apt install libwacom2 libwacom-common libwacom-bin
+	sudo apt install xserver-xorg-input-wacom -y
+	sudo apt install libwacom2 libwacom-common libwacom-bin -y
 }
 
 function install_pdfTools {
-	sudo apt install pdfarranger
-	sudo apt install pdfshuffler
+	sudo apt install pdfarranger -y
+	sudo apt install pdfshuffler -y
 }
 
 function install_git {
-	sudo apt install git
+	sudo apt install git -y
 	echo "Git global config:"
 	echo "git user.Name: "$(git config --global user.name $gitUserName)
 	echo "git user.Email: "$(git config --global user.email $gitUserEmail)
@@ -201,118 +211,119 @@ function install_git {
 }
 
 function install_audioTools {
-	sudo apt install alsa-tools-gui
-	sudo apt install jackd
-	sudo apt install qjackctl
-	sudo apt install puredata
-	sudo apt install audacity
-	sudo apt install kid3 kid3-qt
+	sudo apt install alsa-tools-gui -y
+	sudo apt install jackd -y
+	sudo apt install qjackctl -y
+	sudo apt install puredata -y
+	sudo apt install audacity -y
+	sudo apt install kid3 kid3-qt -y
 }
 
 function install_kxstudio {
-	sudo apt install apt-transport-https gpgv
+	sudo apt install apt-transport-https gpgv -y
 	sudo dpkg --purge kxstudio-repos-gcc5
 	cd ~/Downloads
 	wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
 	sudo dpkg -i kxstudio-repos_10.0.3_all.deb
-	sudo apt update
-	sudo apt install kxstudio-default-settings
-	sudo apt install kxstudio-meta-all
-	sudo apt install kstudio-meta-audio-plugins
-	sudo apt install kstudio-meta-audio-plugins-lv2
-	sudo apt install raysession
+	sudo apt update -y
+	sudo apt install kxstudio-default-settings -y
+	sudo apt install kxstudio-meta-all -y
+	sudo apt install kstudio-meta-audio-plugins -y
+	sudo apt install kstudio-meta-audio-plugins-lv2 -y
+	sudo apt install raysession -y
 }
 
 function install_digitalInstruments {
-	sudo apt install aeolus
-	sudo apt install foo-yc20 foo-yc20-vst
-	sudo apt install hexter
-	sudo apt install phasex
-	sudo apt install qsynth
-	sudo apt install yoshimi yoshimi-data yoshimi-doc
+	sudo apt install aeolus -y
+	sudo apt install foo-yc20 foo-yc20-vst -y
+	sudo apt install hexter -y
+	sudo apt install phasex -y
+	sudo apt install qsynth -y
+	sudo apt install yoshimi yoshimi-data yoshimi-doc -y
 	sudo apt install fluidsynth fluidsynth-dssi libfluidsynth2 fluid-soundfont-gm
-	sudo apt install petri-foo
+	-y
+	sudo apt install petri-foo -y
 }
 
 function install_midiTools {
-	sudo apt install jack-keyboard
-	sudo apt install mcpdisp mcp-plugins
-	sudo apt install qmidiarp qmidinet qmidiroute
-	sudo apt install vkeybd
-	sudo apt install musescore3
-	sudo apt install impro-visor
+	sudo apt install jack-keyboard -y
+	sudo apt install mcpdisp mcp-plugins -y
+	sudo apt install qmidiarp qmidinet qmidiroute -y
+	sudo apt install vkeybd -y
+	sudo apt install musescore3 -y
+	sudo apt install impro-visor -y
 }
 
 function install_digitalAudioWorkstations {
-	sudo apt install ardour
-	sudo apt install lmms
-	sudo apt install qtractor
+	sudo apt install ardour -y
+	sudo apt install lmms -y
+	sudo apt install qtractor -y
 }
 
 function install_mixers {
-	sudo apt install jack-mixer
-	sudo apt install meterbridge
-	sudo apt install qasmixer qasconfig qashctl qastools-common
-	sudo apt install mixxx
+	sudo apt install jack-mixer -y
+	sudo apt install meterbridge -y
+	sudo apt install qasmixer qasconfig qashctl qastools-common -y
+	sudo apt install mixxx -y
 }
 
 function install_audioEffects {
-	sudo apt install guitarix
-	sudo apt install rakarrack
-	sudo apt install jamin
-	sudo apt install zita-ajbridge zita-at1 zita-mu1 zita-resampler zita-rev1
-	sudo apt install sooperlooper
+	sudo apt install guitarix -y
+	sudo apt install rakarrack -y
+	sudo apt install jamin -y
+	sudo apt install zita-ajbridge zita-at1 zita-mu1 zita-resampler zita-rev1 -y
+	sudo apt install sooperlooper -y
 }
 
 function install_videoTools {
-	sudo apt install kdenlive
-	sudo apt install synfigstudio
-	sudo apt install slowmovideo
-	sudo apt install subtitleeditor
-	sudo apt install obs-studio
-	sudo apt install xjadeo
+	sudo apt install kdenlive -y
+	sudo apt install synfigstudio -y
+	sudo apt install slowmovideo -y
+	sudo apt install subtitleeditor -y
+	sudo apt install obs-studio -y
+	sudo apt install xjadeo -y
 }
 
 function install_imageTools {
-	sudo apt install gimp
-	sudo apt install imagemagick
-	sudo apt install darktable
-	sudo apt install digikam
-	sudo apt install rapid-photo-downloader
-	sudo apt install hugin
-	sudo apt install siril
+	sudo apt install gimp -y
+	sudo apt install imagemagick -y
+	sudo apt install darktable -y
+	sudo apt install digikam -y
+	sudo apt install rapid-photo-downloader -y
+	sudo apt install hugin -y
+	sudo apt install siril -y
 }
 
 function install_graphicalTools {
-	sudo apt install inkscape
-	sudo apt install krita
-	sudo apt install mypaint
-	sudo apt install gpick
-	sudo apt install fontforge
+	sudo apt install inkscape -y
+	sudo apt install krita -y
+	sudo apt install mypaint -y
+	sudo apt install gpick -y
+	sudo apt install fontforge -y
 }
 
 function install_zoom {
-	sudo apt install zoom
+	sudo apt install zoom -y
 }
 
 function install_xournal {
-	sudo apt install xournal
+	sudo apt install xournal -y
 }
 
 function install_okular {
-	sudo apt install okular
+	sudo apt install okular -y
 }
 
 function install_thunderbird {
-	sudo apt install thunderbird
+	sudo apt install thunderbird -y
 }
 
 function install_vlc {
-	sudo apt install vlc
+	sudo apt install vlc -y
 }
 
 function install_unetbootin {
-	sudo apt install unetbootin
+	sudo apt install unetbootin -y
 }
 
 function install_spotify {
@@ -320,15 +331,15 @@ function install_spotify {
 }
 
 function install_steam {
-	sudo apt install steam
+	sudo apt install steam -y
 }
 
 function install_sqlite {
-	sudo apt install sqlite3 sqlite3-doc
+	sudo apt install sqlite3 sqlite3-doc -y
 }
 
 function install_figma {
-	sudo apt install figma-linux
+	sudo apt install figma-linux -y
 }
 
 function install_skype {
@@ -336,36 +347,27 @@ function install_skype {
 }
 
 function install_i3 {
-	sudo apt install i3
-	sudo apt install feh
-	sudo apt install arandr
-	sudo apt install lxappearance
-	sudo apt install dolphin
+	sudo apt install i3 -y
+	sudo apt install feh -y
+	sudo apt install arandr -y
+	sudo apt install lxappearance -y
+	sudo apt install dolphin -y
 	echo "don't forget to install moka icons: https://snwh.org/moka/download"
-	sudo apt install rofi
-	sudo apt install compton
-	sudo apt install i3blocks
-	sudo apt install pavucontrol
+	sudo apt install rofi -y
+	sudo apt install compton -y
+	sudo apt install i3blocks -y
+	sudo apt install pavucontrol -y
 }
 
 function install_firmwareAtheros {
-	sudo apt install firmware-atheros
+	sudo apt install firmware-atheros -y
 }
 
 function choose_packages_to_install {
-	mandatoryPackages=("firefox" "fish" "vim" "xclip" "tig" "tree" "zip"
-		"numlockx" "baobab" "gparted" "snapd" "curl" "wget" "openssh" "make" "git"
-		"shortcuts" "pdfTools")
-	optionalPackages=("firmwareAtheros" "i3" "virtualbox" "telegram" "discord" "python" "sqlite" "latex"
-		"skype" "steam" "spotify" "unetbootin" "vlc" "thunderbird" "okular"
-		"xournal" "zoom" "touchpad" "displaylink" "figma" "blender" "graphicalTools"
-		"imageTools" "videoTools" "audioTools" "wacom" "virtualbox" "kxstudio"
-		"digitalAudioWorkstations" "digitalInstruments" "audioEffects" "mixers"
-		"midiTools" "sonicVisualiser")
 	confirmSelection="n"
 	while [[ "$confirmSelection" != "y" && "$confirmSelection" != "" ]]; do
-		packagesToBeInstalled=${mandatoryPackages[@]}
-		for i in ${optionalPackages[@]}; do
+		packagesToBeInstalled=()
+		for i in $availablePackages[@]; do
 			echo "Do you want to install $i ? [Y/n]"
 			read
 			if [[ "$REPLY" != "n" && "$REPLY" != "N" ]]; then
@@ -400,22 +402,44 @@ function setup_git_ssh {
 	done
 }
 
-function install_packages {
-	choose_packages_to_install
-	echo "Installing selected packages."
-	for package in ${packagesToBeInstalled[@]}; do
+function install_one_package {
+	tput setaf 2
+	echo "Which package do you want to install?"
+	tput setaf 7
+	select package in ${availablePackages[@]} "exit"; do
+		case $package in
+			exit) sudo apt autoremove -y; exit 0;;
+		esac
+		tput setaf 2
+		echo "Installing $package"
+		tput setaf 7
 		install_$package
 	done
+}
+
+function install_packages {
+	choose_packages_to_install
+	echo "Updating and Upgrading apt"
+	sudo apt update -y
+	sudo apt upgrade -y
+	echo "Installing selected packages."
+	for package in ${packagesToBeInstalled[@]}; do
+		tput setaf 2
+		echo "Installing $package"
+		tput setaf 7
+		install_$package
+	done
+	sudo apt autoremove -y
 }
 
 function find_best_distro_mirror {
 	distroName=$(lsb_release -i -s)
 	if [ "$distroName" = "Debian" ]; then
-		sudo apt install netselect-apt
+		sudo apt install netselect-apt -y
 		cd ~/Downloads
-		netselect-apt -s -n
+		sudo netselect-apt -s -n
 		sudo mv sources.list /etc/apt/sources.list
-		sudo apt update
+		sudo apt update -y
 	fi
 }
 
@@ -429,7 +453,7 @@ function add_user_to_sudoers {
 	else 
 		echo "$userName is not in the sudoers group. Let's put you:"
 		su
-		apt install sudo
+		apt install sudo -y
 		sudo usermod -a -G sudo $userName
 		if [ "$?" = "0" ]
 		then 
@@ -478,7 +502,7 @@ function backup {
 
 function backdown {
 	cd ~/Documents/REPOS/OUTILS/Laptop-Personalization/backupData
-	cp -r ./* ~/
+	cp -r ./ ~/
 	rm ~/cloned-repos.txt
 	echo "Restored config files!"
 	tput setaf 2
@@ -487,20 +511,27 @@ function backdown {
 	tput setaf 7
 	echo "Press [Enter] to continue"
 	read
+	repoLocation=()
+	repoRemote=()
+	i=0
 	while read clonedReposLine; do
 		arrRepo=(${clonedReposLine//,/ })
-		repoLocation=${arrRepo[0]}
-		repoRemote=${arrRepo[1]}
-		echo "Do you want to clone $repoRemote ? [Y/n]"
+		$repoLocation[i]=${arrRepo[0]}
+		$repoRemote[i]=${arrRepo[1]}
+		$i+=1
+	done < ./cloned-repos.txt
+	while [ $i -ge 0 ]; do
+		echo "Do you want to clone $repoRemote[i] ? [Y/n]"
 		read
 		if [[ "$REPLY" != "n" && "$REPLY" != "N" ]]; then
-			mkdir -p $repoLocation
-			cd $repoLocation
+			mkdir -p $repoLocation[i]
+			cd $repoLocation[i]
 			if [ ! "$(ls -A .)" ]; then
-				git clone $repoRemote .
+				git clone $repoRemote[i] .
 			fi
 		fi
-	done < ./cloned-repos.txt
+		$i-=1
+	done
 }
 
 function confirm_user_data {
@@ -567,6 +598,15 @@ function show_help {
 	within the OS pendrive, and run it after the OS installs"
 }
 
+availablePackages=("firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
+	"xclip" "tig" "tree" "zip" "numlockx" "baobab" "gparted" "openssh"
+	"shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox" "telegram"
+	"discord" "python" "opencv" "sqlite" "latex" "skype" "steam" "spotify"
+	"unetbootin" "vlc" "thunderbird" "okular" "xournal" "zoom" "touchpad"
+	"displaylink" "figma" "blender" "graphicalTools" "imageTools" "videoTools"
+	"audioTools" "wacom" "kxstudio" "digitalAudioWorkstations"
+	"digitalInstruments" "audioEffects" "mixers" "midiTools" "sonicVisualiser")
+
 while getopts :ht flag; do
 	case $flag in
 		h) show_help;;
@@ -575,10 +615,15 @@ while getopts :ht flag; do
 done
 if [ "$#" = "0" ]
 then
-	select menuOption in "setup_new_machine" "install_packages" "setup_git_ssh" "troubleshoot_hibernation" "backup" "backdown" "check_if_all_REPOS_are_up_to_date" "find_best_distro_mirror" "abort"; do
+	if [ ! ${EUID} -eq 0 ]; then
+		echo "You need to run me as root (sudo)"
+		exit
+	fi
+	select menuOption in "setup_new_machine" "install_packages" "install_one_package" "setup_git_ssh" "troubleshoot_hibernation" "backup" "backdown" "check_if_all_REPOS_are_up_to_date" "find_best_distro_mirror" "abort"; do
 		case $menuOption in
 			setup_new_machine) setup_new_machine; break;;
 			install_packages) install_packages; break;;
+			install_one_package) install_one_package; break;;
 			setup_git_ssh) setup_git_ssh; break;;
 			troubleshoot_hibernation) troubleshoot_hibernation; break;;
 			backup) backup; break;;
