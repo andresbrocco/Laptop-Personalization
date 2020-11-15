@@ -407,18 +407,19 @@ function choose_packages_to_install {
 }
 
 function setup_git_ssh {
-	select gitSetupOption in "Remove_old_keys" "Create_new_key" "Copy_key" "Open_Github" "Open_Gitlab" "Continue"; do
+	select gitSetupOption in "Remove_old_keys" "Create_new_key" "Copy_key" "Open_Github" "Open_Gitlab" "Test_authentication" "Continue"; do
 		case $gitSetupOption in
 			Remove_old_keys) rm $userHome/.ssh/*;;
 			Create_new_key)
-				ssh-keygen -t rsa -b 4096 -f $userHome/.ssh/git_rsa -C "$gitUserEmail"
+				ssh-keygen -t rsa -b 4096 -f $userHome/.ssh/id_rsa -C "$gitUserEmail"
 				ssh-agent -s
-				ssh-add $userHome/.ssh/git_rsa;;
+				ssh-add $userHome/.ssh/id_rsa;;
 			Copy_key)
-				cat $userHome/.ssh/git_rsa.pub | xclip -sel clip
+				cat $userHome/.ssh/id_rsa.pub | xclip -sel clip
 				echo "Go to your Github and Gitlab settings and paste the ssh key!";;
 			Open_Github) firefox https://github.com/settings/keys &;;
 			Open_Gitlab) firefox https://gitlab.com/-/profile/keys &;;
+			Test_authentication) ssh -T git@github.com;;
 			Continue) break;;
 		esac
 	done
