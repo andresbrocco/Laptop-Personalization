@@ -1,10 +1,4 @@
-
-./Bureaucracies,git@github.com:andresbrocco/Bureaucracies.git
 ./DevCourses/LinkedInCourses,git@github.com:andresbrocco/LinkedInCourses.git
-./DevCourses/FullStackWebDevelopmentCourse,git@github.com:andresbrocco/FullStackWebDevelopmentCourse.git
-./PureDataStuff,git@github.com:andresbrocco/PureDataStuff.git
-./ChromaJammer,git@github.com:andresbrocco/ChromaJammer.git
-./andresbrocco.github.io-source,https://github.com/andresbrocco/andresbrocco.github.io-source.git
 ./OUTILS/Laptop-Personalization,git@github.com:andresbrocco/Laptop-Personalization.git
-./andresbrocco.github.io-React,git@github.com:andresbrocco/andresbrocco.github.io-React.git
-./andresbrocco.github.io,https://github.com/andresbrocco/andresbrocco.github.io.git
+./PureDataStuff,git@github.com:andresbrocco/PureDataStuff.git
+./Bureaucracies,git@github.com:andresbrocco/Bureaucracies.git
