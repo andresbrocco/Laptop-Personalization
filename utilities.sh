@@ -6,9 +6,9 @@
 
 function download_laptop_personalization_repository {
 	echo "Dowloading 'Laptop_Personalization' repository at
-	~/Documents/REPOS/OUTILS"
-	mkdir -p ~/Documents/REPOS/OUTILS
-	cd ~/Documents/REPOS/OUTILS
+	$reposDir/OUTILS"
+	mkdir -p $reposDir/OUTILS
+	cd $reposDir/OUTILS
 	git clone $laptop_personalization_repository_url
 }
 
@@ -39,7 +39,7 @@ function install_vim {
 	sudo apt install npm -y
 	sudo npm i -g bash-language-server
 	sudo apt install libncurses-dev -y
-	cd ~/Downloads
+	cd $userHome/Downloads
 	git clone https://github.com/vim/vim.git
 	cd vim/src
 	make
@@ -85,7 +85,7 @@ function install_opencv {
 }
 
 function install_discord {
-	cd ~/Downloads
+	cd $userHome/Downloads
 	sudo apt install libc++1 -y
 	sudo apt install libappindicator1 -y
 	wget -O discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
@@ -93,14 +93,12 @@ function install_discord {
 }
 
 function install_telegram {
-	sudo add-apt-repository ppa:atareao/telegram -y
-	sudo apt update -y
-	sudo apt install telegram -y
+	sudo apt install telegram-desktop -y
 }
 
 function install_displaylink {
 	echo "Installing DisplayLink-Debian"
-	cd ~/Downloads/
+	cd $userHome/Downloads/
 	git clone https://github.com/AdnanHodzic/displaylink-debian.git
 	cd displaylink-debian/
 	sudo ./displaylink-debian.sh
@@ -126,7 +124,7 @@ function install_firefox {
 function install_fish {
 	sudo apt install fish -y
 	sudo chsh -s /usr/bin/fish
-	fish -c "set -U fish_user_paths ~/.local/bin"
+	fish -c "set -U fish_user_paths $userHome/.local/bin"
 }
 
 function install_xclip {
@@ -194,7 +192,9 @@ function install_blender {
 
 function install_wacom {
 	sudo apt install xserver-xorg-input-wacom -y
-	sudo apt install libwacom2 libwacom-common libwacom-bin -y
+	sudo apt install libwacom2 -y
+	sudo apt install libwacom-common -y
+	sudo apt install libwacom-bin -y
 }
 
 function install_pdfTools {
@@ -216,13 +216,15 @@ function install_audioTools {
 	sudo apt install qjackctl -y
 	sudo apt install puredata -y
 	sudo apt install audacity -y
-	sudo apt install kid3 kid3-qt -y
+	sudo apt install kid3 -y
+	sudo apt install kid3-qt -y
 }
 
 function install_kxstudio {
-	sudo apt install apt-transport-https gpgv -y
+	sudo apt install apt-transport-https -y
+	sudo apt install gpgv -y
 	sudo dpkg --purge kxstudio-repos-gcc5
-	cd ~/Downloads
+	cd $userHome/Downloads
 	wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
 	sudo dpkg -i kxstudio-repos_10.0.3_all.deb
 	sudo apt update -y
@@ -235,20 +237,28 @@ function install_kxstudio {
 
 function install_digitalInstruments {
 	sudo apt install aeolus -y
-	sudo apt install foo-yc20 foo-yc20-vst -y
+	sudo apt install foo-yc20 -y
+	sudo apt install foo-yc20-vst -y
 	sudo apt install hexter -y
 	sudo apt install phasex -y
 	sudo apt install qsynth -y
-	sudo apt install yoshimi yoshimi-data yoshimi-doc -y
-	sudo apt install fluidsynth fluidsynth-dssi libfluidsynth2 fluid-soundfont-gm
-	-y
+	sudo apt install yoshimi -y
+	sudo apt install yoshimi-data -y
+	sudo apt install yoshimi-doc -y
+	sudo apt install fluidsynth -y
+	sudo apt install fluidsynth-dssi -y
+	sudo apt install libfluidsynth2 -y
+	sudo apt install fluid-soundfont-gm -y
 	sudo apt install petri-foo -y
 }
 
 function install_midiTools {
 	sudo apt install jack-keyboard -y
-	sudo apt install mcpdisp mcp-plugins -y
-	sudo apt install qmidiarp qmidinet qmidiroute -y
+	sudo apt install mcpdisp -y
+	sudo apt install mcp-plugins -y
+	sudo apt install qmidiarp -y
+	sudo apt install qmidinet -y
+	sudo apt install qmidiroute -y
 	sudo apt install vkeybd -y
 	sudo apt install musescore3 -y
 	sudo apt install impro-visor -y
@@ -263,7 +273,10 @@ function install_digitalAudioWorkstations {
 function install_mixers {
 	sudo apt install jack-mixer -y
 	sudo apt install meterbridge -y
-	sudo apt install qasmixer qasconfig qashctl qastools-common -y
+	sudo apt install qasmixer -y
+	sudo apt install qasconfig -y
+	sudo apt install qashctl -y
+	sudo apt install qastools-common -y
 	sudo apt install mixxx -y
 }
 
@@ -271,7 +284,11 @@ function install_audioEffects {
 	sudo apt install guitarix -y
 	sudo apt install rakarrack -y
 	sudo apt install jamin -y
-	sudo apt install zita-ajbridge zita-at1 zita-mu1 zita-resampler zita-rev1 -y
+	sudo apt install zita-ajbridge -y
+	sudo apt install zita-at1 -y
+	sudo apt install zita-mu1 -y
+	sudo apt install zita-resampler -y
+	sudo apt install zita-rev1 -y
 	sudo apt install sooperlooper -y
 }
 
@@ -335,11 +352,16 @@ function install_steam {
 }
 
 function install_sqlite {
-	sudo apt install sqlite3 sqlite3-doc -y
+	sudo apt install sqlite3 -y
+	sudo apt install sqlite3-doc -y
 }
 
 function install_figma {
 	sudo apt install figma-linux -y
+}
+
+function install_htop {
+	sudo apt install htop
 }
 
 function install_skype {
@@ -387,13 +409,13 @@ function choose_packages_to_install {
 function setup_git_ssh {
 	select gitSetupOption in "Remove_old_keys" "Create_new_key" "Copy_key" "Open_Github" "Open_Gitlab" "Continue"; do
 		case $gitSetupOption in
-			Remove_old_keys) rm ~/.ssh/*;;
+			Remove_old_keys) rm $userHome/.ssh/*;;
 			Create_new_key)
-				ssh-keygen -t rsa -b 4096 -f ~/.ssh/git_rsa -C "$gitUserEmail"
+				ssh-keygen -t rsa -b 4096 -f $userHome/.ssh/git_rsa -C "$gitUserEmail"
 				ssh-agent -s
-				ssh-add ~/.ssh/git_rsa;;
+				ssh-add $userHome/.ssh/git_rsa;;
 			Copy_key)
-				cat ~/.ssh/git_rsa.pub | xclip -sel clip
+				cat $userHome/.ssh/git_rsa.pub | xclip -sel clip
 				echo "Go to your Github and Gitlab settings and paste the ssh key!";;
 			Open_Github) firefox https://github.com/settings/keys &;;
 			Open_Gitlab) firefox https://gitlab.com/-/profile/keys &;;
@@ -419,6 +441,8 @@ function install_one_package {
 
 function install_packages {
 	choose_packages_to_install
+	echo "Please, enter the root password (not the user, THE ROOT)"
+	su
 	echo "Updating and Upgrading apt"
 	sudo apt update -y
 	sudo apt upgrade -y
@@ -436,16 +460,20 @@ function find_best_distro_mirror {
 	distroName=$(lsb_release -i -s)
 	if [ "$distroName" = "Debian" ]; then
 		sudo apt install netselect-apt -y
-		cd ~/Downloads
+		cd $userHome/Downloads
 		sudo netselect-apt -s -n
 		sudo mv sources.list /etc/apt/sources.list
 		sudo apt update -y
 	fi
 }
 
+function change_su_password {
+	sudo passwd
+}
+
 function add_user_to_sudoers {
 	userName=$(whoami)
-	echo "Checking if user is in the sudoers group."
+	echo "Checking if $userName is in the sudoers group."
 	sudo -v
 	if [ "$?" = "0" ]
 	then 
@@ -474,16 +502,16 @@ function add_user_to_sudoers {
 }
 
 function backup {
-	echo "Updating files in ~/Documents/REPOS/OUTILS/Laptop-Personalization/backupData"
-	cd ~/Documents/REPOS/OUTILS/Laptop-Personalization/backupData
+	echo "Updating files in $reposDir/OUTILS/Laptop-Personalization/backupData"
+	cd $reposDir/OUTILS/Laptop-Personalization/backupData
 	find . -type f | while read fileName; do
 		if [ "$fileName" != "./cloned-repos.txt" ]; then
-			cp ~/"${fileName:2}" "$fileName"
+			cp $userHome/"${fileName:2}" "$fileName"
 		fi
 	done
-	clonedReposFile=~/Documents/REPOS/OUTILS/Laptop-Personalization/backupData/cloned-repos.txt
-	cd ~/Documents/REPOS/
-	echo "" > $clonedReposFile
+	clonedReposFile=$reposDir/OUTILS/Laptop-Personalization/backupData/cloned-repos.txt
+	cd $reposDir/
+	> $clonedReposFile
 	find . -type d | while read dirName; do
 		if [ -d "$dirName"/.git ]; then
 			echo "$dirName,$(git -C $dirName config --get remote.origin.url)" >> $clonedReposFile
@@ -493,7 +521,7 @@ function backup {
 	read
 	if [[ "$REPLY" != "n" && "$REPLY" != "N" ]]
 	then
-		cd ~/Documents/REPOS/OUTILS/Laptop-Personalization/backupData
+		cd $reposDir/OUTILS/Laptop-Personalization/backupData
 		git add .
 		git commit -m "updated backupData"
 		git push origin master
@@ -501,9 +529,9 @@ function backup {
 }
 
 function backdown {
-	cd ~/Documents/REPOS/OUTILS/Laptop-Personalization/backupData
-	cp -r ./ ~/
-	rm ~/cloned-repos.txt
+	cd $reposDir/OUTILS/Laptop-Personalization/backupData
+	cp -r ./ $userHome/
+	rm $userHome/cloned-repos.txt
 	echo "Restored config files!"
 	tput setaf 2
 	echo "Open another terminal and set the terminal font to DejaVu Sans Mono Nerd
@@ -513,24 +541,29 @@ function backdown {
 	read
 	repoLocation=()
 	repoRemote=()
-	i=0
+	i=1
 	while read clonedReposLine; do
 		arrRepo=(${clonedReposLine//,/ })
-		$repoLocation[i]=${arrRepo[0]}
-		$repoRemote[i]=${arrRepo[1]}
-		$i+=1
+		repoLocation[$i]=$reposDir/${arrRepo[0]:2}
+		repoRemote[$i]=${arrRepo[1]}
+		((i+=1))
 	done < ./cloned-repos.txt
-	while [ $i -ge 0 ]; do
-		echo "Do you want to clone $repoRemote[i] ? [Y/n]"
+	while [ $i -gt 1 ]; do
+		((i+=-1))
+		if [ -d ${repoLocation[$i]}/.git ]; then
+			echo "Repo ${repoRemote[$i]} is already cloned inside ${repoLocation[$i]}"
+			continue
+		fi
+		echo "Do you want to clone ${repoRemote[$i]} " 
+		echo "inside ${repoLocation[$i]} ? [Y/n]"
 		read
 		if [[ "$REPLY" != "n" && "$REPLY" != "N" ]]; then
-			mkdir -p $repoLocation[i]
-			cd $repoLocation[i]
+			mkdir -p ${repoLocation[$i]}
+			cd ${repoLocation[$i]}
 			if [ ! "$(ls -A .)" ]; then
-				git clone $repoRemote[i] .
+				git clone ${repoRemote[$i]} .
 			fi
 		fi
-		$i-=1
 	done
 }
 
@@ -566,7 +599,6 @@ function setup_new_machine {
 			*) echo "I'm not sure what you meant.";;
 		esac
 	done
-	add_user_to_sudoers
 	find_best_distro_mirror
 	install_packages
 	setup_git_ssh
@@ -575,18 +607,18 @@ function setup_new_machine {
 }
 
 function check_if_all_REPOS_are_up_to_date {
-	echo "Checking only repositories at ~/Documents/REPOS/"
-	cd ~/Documents/REPOS/
+	echo "Checking only repositories at $reposDir/"
+	cd $reposDir/
 	find . -type d | while read dirName; do
 		if [ -d "$dirName"/.git ]; then
 			git -C $dirName remote update > /dev/null
 			repostatus=$(git -C $dirName status --short)
 			if [ "$repostatus" != "" ]; then
 				tput setaf 1
-				echo "repository ~/Documents/REPOS/${dirName:2} is outdated"
+				echo "repository $reposDir/${dirName:2} is outdated"
 				tput setaf 7
 			else
-				echo "repository ~/Documents/REPOS/${dirName:2} is up-to-date"
+				echo "repository $reposDir/${dirName:2} is up-to-date"
 			fi
 		fi
 	done
@@ -602,7 +634,7 @@ availablePackages=("firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
 	"xclip" "tig" "tree" "zip" "numlockx" "baobab" "gparted" "openssh"
 	"shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox" "telegram"
 	"discord" "python" "opencv" "sqlite" "latex" "skype" "steam" "spotify"
-	"unetbootin" "vlc" "thunderbird" "okular" "xournal" "zoom" "touchpad"
+	"unetbootin" "vlc" "thunderbird" "okular" "xournal" "zoom" "touchpad" "htop"
 	"displaylink" "figma" "blender" "graphicalTools" "imageTools" "videoTools"
 	"audioTools" "wacom" "kxstudio" "digitalAudioWorkstations"
 	"digitalInstruments" "audioEffects" "mixers" "midiTools" "sonicVisualiser")
@@ -615,11 +647,14 @@ while getopts :ht flag; do
 done
 if [ "$#" = "0" ]
 then
-	if [ ! ${EUID} -eq 0 ]; then
-		echo "You need to run me as root (sudo)"
-		exit
+	if [ ${EUID} -eq 0 ]; then
+		echo "Don't run me as root!"
+		exit 1
 	fi
-	select menuOption in "setup_new_machine" "install_packages" "install_one_package" "setup_git_ssh" "troubleshoot_hibernation" "backup" "backdown" "check_if_all_REPOS_are_up_to_date" "find_best_distro_mirror" "abort"; do
+	userHome=$(cd ~/ && pwd)
+	reposDir=$userHome/Documents/REPOS
+	echo $userHome
+	select menuOption in "setup_new_machine" "install_packages" "install_one_package" "setup_git_ssh" "troubleshoot_hibernation" "backup" "backdown" "check_if_all_REPOS_are_up_to_date" "find_best_distro_mirror" "change_su_password" "abort"; do
 		case $menuOption in
 			setup_new_machine) setup_new_machine; break;;
 			install_packages) install_packages; break;;
@@ -630,6 +665,7 @@ then
 			backdown) backdown; break;;
 			check_if_all_REPOS_are_up_to_date) check_if_all_REPOS_are_up_to_date; break;;
 			find_best_distro_mirror) find_best_distro_mirror; break;;
+			change_su_password) change_su_password; break;;
 			abort) exit 0;;
 			*) echo "I'm not sure what you meant.";;
 		esac
