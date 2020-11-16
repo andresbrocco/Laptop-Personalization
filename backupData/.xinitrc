@@ -5,6 +5,8 @@
 # Executed by startx (run your window manager from here)
 #
 
-numlockx &
+# numlockx &
+# setxkbmap eu &
 
+# exec i3
 exec window_manager
