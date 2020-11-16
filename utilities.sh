@@ -98,12 +98,16 @@ function install_telegram {
 }
 
 function install_displaylink {
-	echo "Installing DisplayLink-Debian"
-	cd $userHome/Downloads/
-	git clone https://github.com/AdnanHodzic/displaylink-debian.git
-	cd displaylink-debian/
-	echo $sudoPW | sudo -S ./displaylink-debian.sh --install
-	echo $sudoPW | sudo -S rm /etc/X11/xorg.conf.d/20-displaylink.conf
+	if [ "$distroName" != "Debian" ]; then
+		echo "Installing DisplayLink-Debian"
+		cd $userHome/Downloads/
+		git clone https://github.com/AdnanHodzic/displaylink-debian.git
+		cd displaylink-debian/
+		echo $sudoPW | sudo -S ./displaylink-debian.sh --install
+		echo $sudoPW | sudo -S rm /etc/X11/xorg.conf.d/20-displaylink.conf
+	else
+		echo "Download displaylink from the official repo instead!"
+	fi
 }
 
 function install_touchpad {
@@ -124,8 +128,10 @@ function install_firefox {
 
 function install_fish {
 	echo $sudoPW | sudo -S apt install fish -y
-	echo $sudoPW | sudo -S chsh -s /usr/bin/fish
+	echo "Setting fish as default terminal:"
+	chsh -s `which fish`
 	fish -c "set -U fish_user_paths $userHome/.local/bin"
+	echo "It will only take effect after logout."
 }
 
 function install_xclip {
@@ -180,10 +186,14 @@ function install_make {
 }
 
 function install_virtualbox {
-	wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-	echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
-	echo $sudoPW | sudo -S apt update -y
-	echo $sudoPW | sudo -S apt install virtualbox-6.1 -y
+	if [ "$distroName" != "Debian" ]; then
+		echo "It's not Debian... Will not install virtualbox..."
+	else
+		wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+		echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+		echo $sudoPW | sudo -S apt update -y
+		echo $sudoPW | sudo -S apt install virtualbox-6.1 -y
+	fi
 }
 
 function install_sonicVisualiser {
@@ -205,6 +215,7 @@ function install_pdfTools {
 	echo $sudoPW | sudo -S apt install pdfarranger -y
 	echo $sudoPW | sudo -S apt install pdfshuffler -y
 	echo $sudoPW | sudo -S apt install okular -y
+	echo $sudoPW | sudo -S apt install evince -y
 	echo $sudoPW | sudo -S apt install xournal -y
 }
 
@@ -349,15 +360,15 @@ function install_unetbootin {
 }
 
 function install_spotify {
-    curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
-    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-    echo $sudoPW | sudo -S apt-get update
-    echo $sudoPW | sudo -S apt-get install spotify-client
+	curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
+	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+	echo $sudoPW | sudo -S apt-get update
+	echo $sudoPW | sudo -S apt-get install spotify-client
 }
 
 function install_steam {
-    echo $sudoPW | sudo -S dpkg --add-architecture i386
-    echo $sudoPW | sudo -S apt update -y
+	echo $sudoPW | sudo -S dpkg --add-architecture i386
+	echo $sudoPW | sudo -S apt update -y
 	echo $sudoPW | sudo -S apt install steam -y
 	echo $sudoPW | sudo -S apt install mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 }
@@ -380,6 +391,12 @@ function install_skype {
 }
 
 function install_i3 {
+	echo $sudoPW | sudo -S apt install alsa-utils -y
+	echo $sudoPW | sudo -S apt install qasmixer -y
+	echo $sudoPW | sudo -S ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight
+	echo $sudoPW | sudo -S apt install xbacklight -y
+	echo $sudoPW | sudo -S apt install blueman -y
+	echo $sudoPW | sudo -S apt install pulseaudio-module-bluetooth -y
 	echo $sudoPW | sudo -S apt install i3 -y
 	echo $sudoPW | sudo -S apt install feh -y
 	echo $sudoPW | sudo -S apt install arandr -y
@@ -467,10 +484,9 @@ function install_packages {
 }
 
 function find_best_distro_mirror {
-	distroName=$(lsb_release -i -s)
 	if [ "$distroName" = "Debian" ]; then
-        echo $sudoPW | sudo -S apt update -y
-        echo $sudoPW | sudo -S apt upgrade -y
+		echo $sudoPW | sudo -S apt update -y
+		echo $sudoPW | sudo -S apt upgrade -y
 		echo $sudoPW | sudo -S apt install netselect-apt -y
 		cd $userHome/Downloads
 		echo $sudoPW | sudo -S netselect-apt -s -n
@@ -594,7 +610,7 @@ function confirm_user_data {
 }
 
 function configure_keyboard_layout {
-    echo $sudoPW | sudo -S setxkbmap -model $keyboardModel -layout $keyboardLayout
+	echo $sudoPW | sudo -S setxkbmap -model $keyboardModel -layout $keyboardLayout
 	echo $sudoPW | sudo -S localectl --no-convert set-x11-keymap $keyboardLayout $keyboardModel
 }
 
@@ -682,6 +698,7 @@ then
 	prompt_which_user
 	read -s -p "Enter Password for sudo: " sudoPW
 	echo ""
+	distroName=$(lsb_release -i -s)
 	userHome=$(cd ~/ && pwd)
 	reposDir=$userHome/Documents/REPOS
 	select menuOption in "setup_new_machine" "install_packages" "install_one_package" "setup_git_ssh" "troubleshoot_hibernation" "download_laptop_personalization_repository" "backup" "backdown" "check_if_all_REPOS_are_up_to_date" "find_best_distro_mirror" "configure_keyboard_layout" "change_su_password" "abort"; do
