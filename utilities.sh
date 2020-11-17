@@ -36,7 +36,8 @@ function troubleshoot_hibernation {
 
 function install_vim {
 	echo $sudoPW | sudo -S apt install nodejs -y
-	echo $sudoPW | sudo -S apt install npm -y
+	# echo $sudoPW | sudo -S apt install npm -y
+	curl -sL install-node.now.sh/lts | echo $sudoPW | sudo -S bash
 	echo $sudoPW | sudo -S npm i -g bash-language-server
 	echo $sudoPW | sudo -S apt install libncurses-dev -y
 	cd $userHome/Downloads
@@ -390,11 +391,21 @@ function install_skype {
 	echo $sudoPW | sudo -S snap install skype --classic
 }
 
+function install_light {
+	cd ~/Downloads
+	git clone git@github.com:haikarainen/light.git
+	cd light
+	./autogen.sh
+	./configure && make
+	echo $sudoPW | sudo -S make install
+}
+
 function install_i3 {
+	install_light
 	echo $sudoPW | sudo -S apt install alsa-utils -y
 	echo $sudoPW | sudo -S apt install qasmixer -y
-	echo $sudoPW | sudo -S ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight
-	echo $sudoPW | sudo -S apt install xbacklight -y
+	# echo $sudoPW | sudo -S apt install xbacklight -y # does not work!
+	# echo $sudoPW | sudo -S ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight
 	echo $sudoPW | sudo -S apt install blueman -y
 	echo $sudoPW | sudo -S apt install pulseaudio-module-bluetooth -y
 	echo $sudoPW | sudo -S apt install i3 -y
