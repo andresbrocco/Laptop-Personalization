@@ -13,25 +13,31 @@ function download_laptop_personalization_repository {
 }
 
 function troubleshoot_hibernation {
-	# My OS is installed in the secondary HD (the one inside the CD slot), so we
-	# need to tell the grub to point to the swap partition on that HD. To
-	# accomplish that, just copy the UUID of the swap partition (found in the file
-	# /etc/fstab) and place it in the grub config /etc/default/grub:
+	# To enable hibernation, just copy the UUID of the swap partition (found in
+	# the file /etc/fstab) and place it in the grub config /etc/default/grub:
 	# GRUB_CMDLINE_LINUX_DEFAULT="quiet splash
 	# resume=UUID=d5e18cd2-498d-449f-9c8f-abf95162a5af"
-	swapUUID=$(echo $sudoPW | sudo -S blkid -l -t TYPE=swap -o export | sed -n '2p')
-	echo "UUID of swap partition: $swapUUID"
-	echo "Open the file /etc/default/grub and add 'resume=<ctrl+v>' at the end of
-	the variable GRUB_CMDLINE_LINUX_DEFAULT."
-	echo "it should look like:"
-	echo "GRUB_CMDLINE_LINUX_DEFAULT='quiet splash resume=UUID=d5e18cd2-498d-449f-9c8f-abf95162a5af'"
-	echo "Also, make sure the following line is uncommented:"
-	echo "GRUB_RECORDFAIL_TIMEOUT=0"
-	$swapUUID | xclip -sel clip
-	echo "Come back when you are done, and press <Enter>"
-	read
-	echo $sudoPW | sudo -S update-grub
-	exit 0
+	install_hibernation
+	if [ "$(cat /sys/power/state)" = "freeze mem disk" ]; then
+		echo "Your system supports hibernation"
+		swapUUID=$(echo $sudoPW | sudo -S blkid -l -t TYPE=swap -o export | sed -n '2p')
+		echo "UUID of swap partition: $swapUUID"
+		echo $swapUUID | xclip -sel clip
+		echo "add resume=<ctrl+shift+v> at the end of the variable GRUB_CMDLINE_LINUX_DEFAULT"
+		echo "it should look like:"
+		echo GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash resume=UUID=d5e18cd2-498d-449f-9c8f-abf95162a5af\"
+		gnome-terminal -- bash -c "sudo vim /etc/default/grub;"
+		# echo "Also, make sure the following line is uncommented:"
+		# echo "GRUB_RECORDFAIL_TIMEOUT=0"
+		echo "Come back when you are done, and press <Enter>"
+		read
+		echo $sudoPW | sudo -S update-grub
+		echo "If everything went well, you can hibernate by calling 'sudo systemctl
+		hibernate'"
+		exit 0
+	else
+		echo "Your system does not support hibernation... =["
+	fi
 }
 
 function install_vim {
@@ -45,6 +51,10 @@ function install_vim {
 	cd vim/src
 	make
 	echo $sudoPW | sudo -S make install
+}
+
+function install_hibernation {
+	echo $sudoPW | sudo -S apt install pm-utils hibernate
 }
 
 function install_shortcuts {
@@ -125,6 +135,10 @@ function install_firefox {
 	tput setaf 7
 	echo "Press [Enter] to continue"
 	read
+}
+
+function install_hugo {
+	echo $sudoPW | sudo -S apt install hugo
 }
 
 function install_fish {
@@ -412,8 +426,8 @@ function install_i3 {
 	echo $sudoPW | sudo -S apt install feh -y
 	echo $sudoPW | sudo -S apt install arandr -y
 	echo $sudoPW | sudo -S apt install lxappearance -y
+	echo "Open lxappearance to change the gtk theme to a dark one"
 	echo $sudoPW | sudo -S apt install dolphin -y
-	echo "don't forget to install moka icons: https://snwh.org/moka/download"
 	echo $sudoPW | sudo -S apt install rofi -y
 	echo $sudoPW | sudo -S apt install compton -y
 	echo $sudoPW | sudo -S apt install i3blocks -y
@@ -684,8 +698,8 @@ function show_help {
 	within the OS pendrive, and run it after the OS installs"
 }
 
-availablePackages=("firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
-	"xclip" "tig" "tree" "zip" "numlockx" "baobab" "gparted" "openssh"
+availablePackages=("hibernation" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
+	"xclip" "tig" "tree" "zip" "hugo" "numlockx" "baobab" "gparted" "openssh"
 	"shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox" "telegram"
 	"discord" "python" "opencv" "sqlite" "latex" "skype" "steam" "spotify" "pciutils"
 	"unetbootin" "thunderbird" "zoom" "touchpad" "htop"
