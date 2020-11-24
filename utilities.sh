@@ -439,12 +439,38 @@ function install_i3 {
 	echo $sudoPW | sudo -S apt install feh -y
 	echo $sudoPW | sudo -S apt install arandr -y
 	echo $sudoPW | sudo -S apt install lxappearance -y
+	tput setaf 2
 	echo "Open lxappearance to change the gtk theme to a dark one"
+	tput setaf 7
 	echo $sudoPW | sudo -S apt install dolphin -y
 	echo $sudoPW | sudo -S apt install rofi -y
 	echo $sudoPW | sudo -S apt install compton -y
 	echo $sudoPW | sudo -S apt install i3blocks -y
 	echo $sudoPW | sudo -S apt install pavucontrol -y
+	install_betterLockScreen
+}
+
+function install_betterLockScreen {
+	echo "installing betterLockScreen"
+	echo $sudoPW | sudo -S apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev -y
+	echo $sudoPW | sudo -S apt install imagemagick -y
+	cd ~/Downloads
+	git clone https://github.com/Raymo111/i3lock-color.git
+	cd i3lock-color
+	chmod +x build.sh
+	./build.sh
+	chmod +x install-i3lock-color.sh
+	./install-i3lock-color.sh
+	cd ~/Downloads
+	git clone https://github.com/pavanjadhaw/betterlockscreen
+	cd betterlockscreen
+	cp betterlockscreen ~/.local/bin/
+	tput setaf 2
+	echo "Run 'betterlockscreen -u /path/to/wallpaper.png' to finish configuration"
+	echo "If you have already run 'backdown', it should be:"
+	echo "betterlockscreen -u ~/.config/i3/wallpaper.jpg"
+	tput setaf 7
+	read
 }
 
 function install_firmwareAtheros {
@@ -535,6 +561,11 @@ function find_best_distro_mirror {
 
 function change_su_password {
 	sudo passwd
+	echo "System needs to restart to take effect. Restart now? [y/n]"
+	read
+	if [ "$REPLY" = "y" || "$REPLY" = "Y" ]; then
+		echo $sudoPW | sudo -S shutdown -r now
+	fi
 }
 
 function add_user_to_sudoers {
