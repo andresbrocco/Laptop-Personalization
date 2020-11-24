@@ -104,6 +104,15 @@ function install_discord {
 	echo $sudoPW | sudo -S dpkg -i discord.deb
 }
 
+function install_AMPEnvironment {
+	# Apache-MySQL-PHP Environment
+	echo $sudoPW | sudo -S apt install apache2
+	echo $sudoPW | sudo -S apt install php
+	echo $sudoPW | sudo -S apt install libapache2-mod-php
+	echo $sudoPW | sudo -S apt install php-mysql
+	echo $sudoPW | sudo -S apt install mysql-server
+}
+
 function install_telegram {
 	echo $sudoPW | sudo -S apt install telegram-desktop -y
 }
@@ -217,6 +226,10 @@ function install_sonicVisualiser {
 
 function install_blender {
 	echo $sudoPW | sudo -S apt install blender
+}
+
+function install_bluetooth {
+	sudo apt install bluetooth pulseaudio-module-bluetooth
 }
 
 function install_wacom {
@@ -521,11 +534,10 @@ function find_best_distro_mirror {
 }
 
 function change_su_password {
-	echo $sudoPW | sudo -S passwd
+	sudo passwd
 }
 
 function add_user_to_sudoers {
-	userName=$(whoami)
 	echo "Checking if $userName is in the sudoers group."
 	echo $sudoPW | sudo -S -v
 	if [ "$?" = "0" ]
@@ -558,11 +570,10 @@ function backup {
 	echo "Updating files in $reposDir/OUTILS/Laptop-Personalization/backupData"
 	cd $reposDir/OUTILS/Laptop-Personalization/backupData
 	find . -type f | while read fileName; do
-		if [ "$fileName" != "./cloned-repos.txt" ]; then
-			cp $userHome/"${fileName:2}" "$fileName"
+		if [ "$fileName" != "./home/$userName/cloned-repos.txt" ]; then
+			cp /"${fileName:2}" "$fileName"
 		fi
 	done
-	clonedReposFile=$reposDir/OUTILS/Laptop-Personalization/backupData/cloned-repos.txt
 	cd $reposDir/
 	> $clonedReposFile
 	find . -type d | while read dirName; do
@@ -576,19 +587,22 @@ function backup {
 	then
 		cd $reposDir/OUTILS/Laptop-Personalization/backupData
 		git add .
-		git commit -m "updated backupData"
+		echo "commit message:"
+		read commitMessage
+		git commit -m "$commitMessage"
 		git push origin master
 	fi
 }
 
 function backdown {
+	echo "Restoring all files in $reposDir/OUTILS/Laptop-Personalization/backupData"
 	cd $reposDir/OUTILS/Laptop-Personalization/backupData
-	cp -r ./ $userHome/
+	echo $sudoPW | sudo -S cp -r ./ /
 	rm $userHome/cloned-repos.txt
 	echo "Restored config files!"
 	tput setaf 2
-	echo "Open another terminal and set the terminal font to DejaVu Sans Mono Nerd
-	Font (if you haven't already)"
+	echo "Open another terminal and set the terminal font to Hack Nerd Font (if
+	you haven't already)"
 	tput setaf 7
 	echo "Press [Enter] to continue"
 	read
@@ -600,7 +614,7 @@ function backdown {
 		repoLocation[$i]=$reposDir/${arrRepo[0]:2}
 		repoRemote[$i]=${arrRepo[1]}
 		((i+=1))
-	done < ./cloned-repos.txt
+	done < $clonedReposFile
 	while [ $i -gt 1 ]; do
 		((i+=-1))
 		if [ -d ${repoLocation[$i]}/.git ]; then
@@ -621,6 +635,8 @@ function backdown {
 }
 
 function confirm_user_data {
+	userName=$(whoami)
+	echo "current user: $userName"
 	echo "git user.name: $gitUserName"
 	echo "git user.email: $gitUserEmail"
 	echo "laptop_personalization_repository_url: $laptop_personalization_repository_url"
@@ -641,16 +657,16 @@ function configure_keyboard_layout {
 
 function prompt_which_user {
     echo "Which user?"
-	select userOption in "andre" "gabi" "abort"; do
+	select userOption in "asbrocco" "gbittencourt" "abort"; do
 		case $userOption in
-			andre)
+			asbrocco)
 				gitUserName="Andre Sbrocco"
 				gitUserEmail="andresbrocco@gmail.com"
 				laptop_personalization_repository_url="git@github.com:andresbrocco/Laptop-Personalization.git"
 				keyboardModel="pc101"
 				keyboardLayout="eu"
 				confirm_user_data; break;;
-			gabi)
+			gbittencourt)
 				echo "Configure your personal variables inside this script, erase this line
 				and come back" exit 1
 				gitUserName="Gabriela Bittencourt"
@@ -698,11 +714,11 @@ function show_help {
 	within the OS pendrive, and run it after the OS installs"
 }
 
-availablePackages=("hibernation" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
-	"xclip" "tig" "tree" "zip" "hugo" "numlockx" "baobab" "gparted" "openssh"
-	"shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox" "telegram"
-	"discord" "python" "opencv" "sqlite" "latex" "skype" "steam" "spotify" "pciutils"
-	"unetbootin" "thunderbird" "zoom" "touchpad" "htop"
+availablePackages=("hibernation" "bluetooth" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
+	"xclip" "tig" "tree" "AMPEnvironment" "zip" "hugo" "numlockx" "baobab"
+	"gparted" "openssh" "shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox"
+	"telegram" "discord" "python" "opencv" "sqlite" "latex" "skype" "steam"
+	"spotify" "pciutils" "unetbootin" "thunderbird" "zoom" "touchpad" "htop"
 	"displaylink" "blender" "graphicalTools" "imageTools" "videoTools"
 	"audioTools" "wacom" "kxstudio" "digitalAudioWorkstations"
 	"digitalInstruments" "audioEffects" "mixers" "midiTools" "sonicVisualiser")
@@ -726,6 +742,7 @@ then
 	distroName=$(lsb_release -i -s)
 	userHome=$(cd ~/ && pwd)
 	reposDir=$userHome/Documents/REPOS
+	clonedReposFile=$reposDir/OUTILS/Laptop-Personalization/backupData/home/$userName/cloned-repos.txt
 	select menuOption in "setup_new_machine" "install_packages" "install_one_package" "setup_git_ssh" "troubleshoot_hibernation" "download_laptop_personalization_repository" "backup" "backdown" "check_if_all_REPOS_are_up_to_date" "find_best_distro_mirror" "configure_keyboard_layout" "change_su_password" "abort"; do
 		case $menuOption in
 			setup_new_machine) setup_new_machine; break;;
