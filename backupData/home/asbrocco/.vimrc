@@ -483,13 +483,13 @@
 		\ 'coc-css',
 		\ 'coc-clangd',
 		\ 'coc-emmet',
-		\ 'coc-prettier',
 		\ 'coc-vimtex',
 		\ 'coc-spell-checker',
 		\ 'coc-cspell-dicts',
 		\ 'coc-sql',
 		\ 'coc-sh',
 		\ ]
+		" \ 'coc-prettier',
 		
 		" Some servers have issues with backup files, see #649.
 		set nobackup

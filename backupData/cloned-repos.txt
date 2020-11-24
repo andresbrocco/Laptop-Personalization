@@ -1,4 +1,0 @@
-./Bureaucracies,git@github.com:andresbrocco/Bureaucracies.git
-./OUTILS/Laptop-Personalization,git@github.com:andresbrocco/Laptop-Personalization.git
-./DevCourses/LinkedInCourses,git@github.com:andresbrocco/LinkedInCourses.git
-./PureDataStuff,git@github.com:andresbrocco/PureDataStuff.git
