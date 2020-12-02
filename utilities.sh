@@ -106,11 +106,11 @@ function install_discord {
 
 function install_AMPEnvironment {
 	# Apache-MySQL-PHP Environment
-	echo $sudoPW | sudo -S apt install apache2
-	echo $sudoPW | sudo -S apt install php
-	echo $sudoPW | sudo -S apt install libapache2-mod-php
-	echo $sudoPW | sudo -S apt install php-mysql
-	echo $sudoPW | sudo -S apt install mysql-server
+	echo $sudoPW | sudo -S apt install apache2 -y
+	echo $sudoPW | sudo -S apt install php -y
+	echo $sudoPW | sudo -S apt install libapache2-mod-php -y
+	echo $sudoPW | sudo -S apt install php-mysql -y
+	echo $sudoPW | sudo -S apt install mysql-server -y
 }
 
 function install_telegram {
@@ -147,7 +147,7 @@ function install_firefox {
 }
 
 function install_hugo {
-	echo $sudoPW | sudo -S apt install hugo
+	echo $sudoPW | sudo -S apt install hugo -y
 }
 
 function install_fish {
@@ -158,10 +158,17 @@ function install_fish {
 	echo "It will only take effect after logout."
 }
 
+function install_networktools {
+	echo $sudoPW | sudo -S apt install net-tools -y
+}
+
 function install_xclip {
 	echo $sudoPW | sudo -S apt install xclip -y
 }
 
+function install_mongodb {
+	echo $sudoPW | sudo -S apt install mongodb -y
+}
 function install_tig {
 	echo $sudoPW | sudo -S apt install tig -y
 }
@@ -745,7 +752,7 @@ function show_help {
 	within the OS pendrive, and run it after the OS installs"
 }
 
-availablePackages=("hibernation" "bluetooth" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
+availablePackages=("hibernation" "networktools" "bluetooth" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
 	"xclip" "tig" "tree" "AMPEnvironment" "zip" "hugo" "numlockx" "baobab"
 	"gparted" "openssh" "shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox"
 	"telegram" "discord" "python" "opencv" "sqlite" "latex" "skype" "steam"
