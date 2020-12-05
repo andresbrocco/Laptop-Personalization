@@ -7,7 +7,7 @@
 # the display resolution, in pixels per inch
 display_dpi=96.00
 # the initial zoom level, in percent
-initial_zoom=235.29
+initial_zoom=170.47
 # maximize the window at startup (true/false)
 window_maximize=true
 # start in full screen mode (true/false)

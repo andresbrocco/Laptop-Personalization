@@ -1,6 +1,9 @@
 ./andresbrocco.github.io-source,git@github.com:andresbrocco/andresbrocco.github.io-source.git
 ./andresbrocco.github.io,git@github.com:andresbrocco/andresbrocco.github.io.git
 ./Bureaucracies,git@github.com:andresbrocco/Bureaucracies.git
+./andresbrocco.github.io-React,git@github.com:andresbrocco/andresbrocco.github.io-React.git
+./Tictactrip-Application,git@github.com:andresbrocco/Tictactrip-Application.git
 ./DevCourses/LinkedInCourses,git@github.com:andresbrocco/LinkedInCourses.git
 ./PureDataStuff,git@github.com:andresbrocco/PureDataStuff.git
 ./OUTILS/Laptop-Personalization,git@github.com:andresbrocco/Laptop-Personalization.git
+./LeKaba-Application,git@github.com:andresbrocco/LeKaba-Application.git

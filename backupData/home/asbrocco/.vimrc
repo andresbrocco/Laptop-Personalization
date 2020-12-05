@@ -262,7 +262,7 @@
 		Plug 'ryanoasis/vim-devicons' " Icons for NERDTree.
 		Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Colors based on filetype NOT WORKING!!!!!
 		Plug 'jiangmiao/auto-pairs' " Create the closing bracket automatically {}[]()
-		Plug 'scrooloose/syntastic' " Correct syntax error automatically when saving.
+		" Plug 'scrooloose/syntastic' " Correct syntax error automatically when saving.
 		Plug 'tpope/vim-surround' " Delete, change, add surroundings easily.
 		Plug 'tpope/vim-commentary' " Comment stuff out
 		Plug 'Yggdroot/indentLine' " Visually display indent levels.
@@ -287,6 +287,7 @@
 		Plug 'maxmellon/vim-jsx-pretty' " Syntax for jsx (for React development)
 		Plug 'lervag/vimtex' " filetype plugin for LaTeX files
 		" Plug 'diepm/vim-rest-console' " Send HTTP requests directly from VIM
+		" Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
 		call plug#end()
 	" }}}
 	" gruvbox {{{
@@ -466,15 +467,13 @@
 		"	npm install coc-css (for css, scss and less)
 		"	npm install coc-clangd (for C/C++/Objective-C)
 		
-		" Trying to give the path to a newer version of node
-		" let g:coc_node_path='~/Downloads/node-v14.2.0-linux-x64/bin/node'
+		" let g:coc_node_path='/usr/local/lib/node_modules/'
 		
 		" Dically install desired extensions
 		let g:coc_global_extensions = [
 		\ 'coc-tsserver',
 		\ 'coc-tslint-plugin',
 		\ 'coc-vimlsp',
-		\ 'coc-eslint',
 		\ 'coc-snippets',
 		\ 'coc-python',
 		\ 'coc-markdownlint',
@@ -489,6 +488,9 @@
 		\ 'coc-sql',
 		\ 'coc-sh',
 		\ ]
+		" \ 'coc-phpactor',
+		" \ 'coc-eslint',
+		" \ 'coc-phpls',
 		" \ 'coc-prettier',
 		
 		" Some servers have issues with backup files, see #649.
