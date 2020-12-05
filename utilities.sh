@@ -651,8 +651,11 @@ function backup {
 	then
 		cd $reposDir/OUTILS/Laptop-Personalization/backupData
 		echo $sudoPW | sudo -S git add .
-		echo "commit message:"
+		echo "Commit message:"
 		read commitMessage
+		if [ "$commitMessage" = ""]; then
+			$commitMessage = "Updated backupData"
+		fi
 		git commit -m "$commitMessage"
 		git push origin master
 	fi
