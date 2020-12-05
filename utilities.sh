@@ -12,6 +12,44 @@ function download_laptop_personalization_repository {
 	git clone $laptop_personalization_repository_url
 }
 
+
+function configure_ofelia_in_pure_data {
+# To run ofelia in pure data: download external, openframeworks (place on opt folder?), and the following dependencies:
+# sudo apt-get install libglfw3
+# sudo apt-get install libfreeimage3
+	echo "todo"
+}
+
+function install_processing {
+# To install processing properly, follow the instructionsin the tutorial: http://www.artsnova.com/processing/installing-processing-ubuntu-linux-tutorial.html
+#    1) download *.tgz file from processing website, and extract at /opt/
+#    2) Add the processing folder to the OS $PATH: sudo su -c "ln -s /opt/processing-3.5.4/processing /usr/local/bin/processing"
+#    3) Create a launcher file for Unity: sudo gedit /usr/share/applications/processing.desktop
+#    4) Paste the contents:
+# 	[Desktop Entry]
+# 	Version=2.1
+# 	Name=Processing
+# 	Comment=Processing Rocks
+# 	Exec=processing
+# 	Icon=/opt/processing-3.5.4/lib/icons/pde-256.png
+# 	Terminal=false
+# 	Type=Application
+# 	Categories=AudioVideo;Video;Graphics;
+#    5) Associate *.pde files with Processing: sudo gedit /usr/share/mime/packages/processing.xml
+#  	<?xml version="1.0" encoding="UTF-8"?>
+# 	<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+# 	<mime-type type="text/x-processing">
+# 	<comment>Proecssing PDE sketch file</comment>
+# 	<sub-class-of type="text/x-csrc"/>
+# 	<glob pattern="*.pde"/>
+# 	</mime-type>
+# 	</mime-info>
+#    6) Add this MIME file to the database: sudo update-mime-database /usr/share/mime
+#    7) Associate that MIME with the Processing application: sudo gedit /usr/share/applications/defaults.list
+# 	Add the following line next to other "text/x" lines: text/x-processing=processing.desktop
+	echo "todo"
+}
+
 function troubleshoot_hibernation {
 	# To enable hibernation, just copy the UUID of the swap partition (found in
 	# the file /etc/fstab) and place it in the grub config /etc/default/grub:
