@@ -40,10 +40,18 @@ function troubleshoot_hibernation {
 	fi
 }
 
-function install_vim {
-	echo $sudoPW | sudo -S apt install nodejs -y
+function install_npm {
+	# curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+	# fish -c "set -U fish_user_paths $userHome/.nvm"
+	# echo $sudoPW | sudo -S apt install nodejs -y
 	# echo $sudoPW | sudo -S apt install npm -y
-	curl -sL install-node.now.sh/lts | echo $sudoPW | sudo -S bash
+	# curl -sL install-node.now.sh/lts | sudo bash
+	echo $sudoPW | sudo -S apt install nodejs -y
+	echo $sudoPW | sudo -S apt install npm -y
+}
+
+function install_vim {
+	install_npm
 	echo $sudoPW | sudo -S npm i -g bash-language-server
 	echo $sudoPW | sudo -S apt install libncurses-dev -y
 	cd $userHome/Downloads
@@ -87,6 +95,12 @@ function install_python {
 	pip3 install PyWavelets 
 	#pip3 install librosa
 	pip3 install sympy
+}
+
+function install_zoom {
+	cd $userHome/Downloads
+	wget https://zoom.us/client/latest/zoom_amd64.deb
+	echo $sudoPW | sudo -S apt install ./zoom_amd64.deb -y
 }
 
 function install_opencv {
@@ -229,6 +243,22 @@ function install_virtualbox {
 
 function install_sonicVisualiser {
 	echo $sudoPW | sudo -S apt install sonic-visualiser -y
+}
+
+function install_postman {
+	cd $userHome/Downloads
+	wget https://dl.pstmn.io/download/latest/linux -O postmanInstaller.tar.gz
+	tar -xzf postmanInstaller.tar.gz
+	echo $sudoPW | sudo -S rm -rf /opt/Postman
+	echo $sudoPW | sudo -S mv Postman /opt
+	echo $sudoPW | sudo -S ln -s /opt/Postman/Postman /usr/local/bin/postman
+	echo $sudoPW | sudo -S sh -c 'echo "[Desktop Entry]
+Type=Application
+Name=Postman
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Exec=\"/opt/Postman/Postman\"
+Comment=Postman GUI
+Categories=Development;Code;" > /usr/share/applications/postman.desktop'
 }
 
 function install_blender {
@@ -380,10 +410,6 @@ function install_graphicalTools {
 	echo $sudoPW | sudo -S apt install mypaint -y
 	echo $sudoPW | sudo -S apt install gpick -y
 	echo $sudoPW | sudo -S apt install fontforge -y
-}
-
-function install_zoom {
-	echo $sudoPW | sudo -S apt install zoom -y
 }
 
 function install_thunderbird {
@@ -609,7 +635,7 @@ function backup {
 	cd $reposDir/OUTILS/Laptop-Personalization/backupData
 	find . -type f | while read fileName; do
 		if [ "$fileName" != "./home/$userName/cloned-repos.txt" ]; then
-			cp /"${fileName:2}" "$fileName"
+			echo $sudoPW | sudo -S cp /"${fileName:2}" "$fileName"
 		fi
 	done
 	cd $reposDir/
@@ -624,7 +650,7 @@ function backup {
 	if [[ "$REPLY" != "n" && "$REPLY" != "N" ]]
 	then
 		cd $reposDir/OUTILS/Laptop-Personalization/backupData
-		git add .
+		echo $sudoPW | sudo -S git add .
 		echo "commit message:"
 		read commitMessage
 		git commit -m "$commitMessage"
@@ -752,7 +778,7 @@ function show_help {
 	within the OS pendrive, and run it after the OS installs"
 }
 
-availablePackages=("hibernation" "networktools" "bluetooth" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
+availablePackages=("hibernation" "postman" "npm" "networktools" "bluetooth" "firefox" "git" "make" "curl" "wget" "snapd" "fish" "vim"
 	"xclip" "tig" "tree" "AMPEnvironment" "zip" "hugo" "numlockx" "baobab"
 	"gparted" "openssh" "shortcuts" "pdfTools" "firmwareAtheros" "i3" "virtualbox"
 	"telegram" "discord" "python" "opencv" "sqlite" "latex" "skype" "steam"
